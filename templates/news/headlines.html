@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {% endblock %}
+{% block content %}
+    <form method="POST" >
+        <div class="form-group">
+          {{ form }}{% csrf_token %}
+
+        </div>
+        <input  class="btn btn-info" type = "submit" value="Get Headlines">
+    </form>
+
+    {% if headlines != None  %}
+        <div class="container">
+                <h1>{{ country }}</h1>
+        <div class="row">
+            {% for headline in headlines %}
+                <div class="col-lg-3" style="height: 300px;">
+                    <div class="card text-justify">
+                        <div class="card-body">
+                            {% if headline.urlToImage != None %}
+                                <img class="card-img-top rounded-circle" src="{{ headline.urlToImage }}">
+                            {% else %}
+                                <img class="card-img-top rounded-circle" src="{% static 'images/no_images.jpg' %}">
+                            {% endif %}
+                            <h5 class="card-title" style="font-size: small;"><a href="{{ headline.url }}">{{ headline.title }}</a></h5>
+                            <p class="card-text text-info">{{ headline.description }}</p>
+                            
+                            <p class="card-text text-right"><small class="text-muted"><b>By:</b> <i>{{ headline.author }}</i></small></p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}

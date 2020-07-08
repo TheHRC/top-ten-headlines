@@ -1,0 +1,14 @@
+{% extends '../base.html' %}
+{% load custom_template_tags %}
+{% block title %}List Of Notes{% endblock %}
+{% block content %}
+    <h1>Your Notes</h1>
+    <h2><a href="{%  url 'notepad:create'  %} ">Add a new note</a></h2>
+    <ul>
+        {% for object in object_list %}
+            <li>
+                {{ object }}| <small><a href="{{ object.get_update_url }}">Update</a></small>  | <small><a href="{{ object.get_delete_url }}">Delete</a></small>
+            </li>
+        {% endfor %}
+     </ul>
+{% endblock %}

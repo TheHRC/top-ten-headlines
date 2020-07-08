@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome Dashboard {% endblock %}
+{% block content %}
+    <h1 class="text-info">Welcome</h1>
+    <a href="{% url 'news:headlines' %}" class="page-link">Get Headlines!</a>
+    <a href="{% url 'news:home' %}" class="page-link">Scrape</a>
+{#    <a href="{% url 'finance:companies' %}" class="page-link">Company Dashboard</a>#}
+{% endblock %}

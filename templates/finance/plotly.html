@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Company Finance Plot{% endblock %}
+{% block content %}
+    <div class="row">
+        <div id="articles" style="width: 1400px; height: 800px;">
+
+        </div>
+    </div>
+
+{#  CDN  #}
+    {# JQuery   #}
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous">
+    </script>
+    {# Plotly   #}
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{# End OF CDN   #}
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            let endpoint = "api/chart/data/"
+            let articleData = articleLables = []
+
+            $.ajax({
+                method: "GET",
+                url: endpoint,
+                success: function(data) {
+                    articleLables = data.article_labels
+                    articleData = data.article_data
+                    articleChart()
+                },
+                error: function (error_data) {
+                    console.log('error')
+                }
+            })
+            function articleChart() {
+                var data = [{
+                    x: articleData,
+                    y: articleLables,
+                    type: 'bar',
+                    orientation: 'h',
+                    marker: {
+                        color: "#23b7e5",
+                    },
+                }];
+                var layout = {
+                    title: "Number of Articles per Company",
+                    margin: {l: 200}
+                };
+                Plotly.newPlot('articles', data, layout);
+            }
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} News Headlines {% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <h1>Welcome to your dashboard</h1>
+
+        {% if hide_me  %}
+            <p>Your next scrape is in {{ next_scrape }} hours.</p>
+        {% else %}
+            <form method="post" action="{% url 'news:scrape' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Get the news</button>
+            </form>
+        {% endif %}
+
+    </div>
+
+
+    {# Dispaly News #}
+    <div class="container">
+        <div class="row">
+            {% for object in object_list %}
+                <div class="col-md-4">
+                    <div class="card text-justify">
+                        <div class="card-body">
+                            {% if object.image_url != None %}
+                                <img class="card-img-top" src="{{ object.image_url }}">
+                            {% else %}
+                                <img class="card-img-top" src="{% static 'images/no_images.jpg' %}">
+                            {% endif %}
+                            <h5 class="card-title"><a href="{{ object.url }}">{{ object.title }}</a></h5>
+                            <blockquote>
+                                <p class="card-text text-justify text-center">{{ object.description }}</p>
+                                <footer class="text-right">By: <cite title="Source Title">{{ object.author }}</cite></footer>
+                            </blockquote>
+
+{#                            <p class="card-text text-right"><small class="text-muted"><b>By:</b> <i>{{ object.author }}</i></small></p>#}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
